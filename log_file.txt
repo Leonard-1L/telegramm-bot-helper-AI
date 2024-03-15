@@ -1,0 +1,14 @@
+2024-03-15 23:33:58,267 - root - INFO - Бот запущен
+2024-03-15 23:33:59,011 - root - INFO - Leoprofi c id 6332228115 присоединился к нам!
+2024-03-15 23:35:57,275 - root - ERROR - Ошибка в функции: execute_query. Код ошибки: database is locked
+2024-03-15 23:37:00,477 - root - ERROR - Ошибка в функции: execute_selection_query. Код ошибки: database is locked
+2024-03-15 23:37:07,830 - root - ERROR - Ошибка в функции: execute_selection_query. Код ошибки: database is locked
+2024-03-15 23:37:15,210 - root - ERROR - Ошибка в функции: execute_query. Код ошибки: database is locked
+2024-03-15 23:37:22,556 - root - ERROR - Ошибка в функции: execute_query. Код ошибки: database is locked
+2024-03-15 23:37:29,985 - root - ERROR - Ошибка в функции: execute_selection_query. Код ошибки: database is locked
+2024-03-15 23:37:37,418 - root - ERROR - Ошибка в функции: execute_query. Код ошибки: database is locked
+2024-03-15 23:37:44,864 - root - ERROR - Ошибка в функции: execute_query. Код ошибки: database is locked
+2024-03-15 23:37:52,295 - root - ERROR - Ошибка в функции: execute_selection_query. Код ошибки: database is locked
+2024-03-15 23:37:52,451 - root - WARNING - У пользователя с id 6332228115 не добавлено задание
+2024-03-15 23:41:05,805 - TeleBot - ERROR - Infinity polling: polling exited
+2024-03-15 23:41:05,805 - TeleBot - ERROR - Break infinity polling
