@@ -75,7 +75,7 @@ def is_value_in_table(user_id, column_name, table_name=DB_TABLE_USERS_NAME):
 def update_row_value(user_id, column_name, new_value, table_name=DB_TABLE_USERS_NAME):
     if not is_value_in_table(user_id, user_id):
         insert_row(column_name='(user_id, subject, level, task, answer)',
-                   values=f'({user_id}, NULL, NULL, NULL, "Решим задачу по шагам:")')
+                   values=f'({user_id}, NULL, NULL, NULL, "Решим задачу:")')
     sql_query = f"UPDATE {table_name} SET {column_name} = '{new_value}' WHERE user_id = {user_id}"
     execute_query(sql_query)
 

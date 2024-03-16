@@ -6,7 +6,7 @@
   </component>
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
@@ -16,7 +16,7 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="70d78796-8db1-49b1-b72b-9dc050cb0d2f">
+    <connection id="beba8abe-0d8c-4ac6-b9e8-9211c06308aa">
       <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
@@ -24,15 +24,13 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="70d78796-8db1-49b1-b72b-9dc050cb0d2f" object-ref="schemas/main/tables/users" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="70d78796-8db1-49b1-b72b-9dc050cb0d2f" />
+    <connection id="beba8abe-0d8c-4ac6-b9e8-9211c06308aa" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="70d78796-8db1-49b1-b72b-9dc050cb0d2f" dataset="main.users" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="beba8abe-0d8c-4ac6-b9e8-9211c06308aa" dataset="main.users" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
@@ -49,9 +47,12 @@
     <last-used-operator value="EQUAL" />
     <filters />
   </component>
+  <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
+    <recently-used-interfaces />
+  </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="70d78796-8db1-49b1-b72b-9dc050cb0d2f" active="true" signed="true">
+      <connection id="beba8abe-0d8c-4ac6-b9e8-9211c06308aa" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -98,7 +99,7 @@
           <session-management value="true" />
           <ddl-file-binding value="true" />
           <database-logging value="true" />
-          <connect-automatically value="true" />
+          <connect-automatically value="false" />
           <restore-workspace value="true" />
           <restore-workspace-deep value="false" />
           <environment-type value="default" />

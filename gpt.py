@@ -28,9 +28,9 @@ def is_current(user_request):
 
 
 def make_promt(user_id):
-    lang = database.is_value_in_table(user_id, "lang")
+    subject = database.is_value_in_table(user_id, "subject")
     level = database.is_value_in_table(user_id, "level")
-    system_message = f"{system_role(lang)}. {system_level(level)}"
+    system_message = f"{system_role(subject)}. {system_level(level)}"
     json = {
         "messages": [
             {
@@ -46,28 +46,30 @@ def make_promt(user_id):
                 "content": database.is_value_in_table(user_id, "answer")
             }
         ],
-        "temperature": 1.2,
-        "max_tokens": 25,
+        "temperature": 1,
+        "max_tokens": 512,
     }
     return json
 
 
 def get_response(user_id):
-    promt = make_promt(user_id)
     try:
+        promt = make_promt(user_id)
         response = requests.post(url=GPT_LOCAL_URL, headers=HEADERS, json=promt)
         content = response.json()['choices'][0]['message']['content']
         return [True, content]
-    except Exception as err:
-        logging.error(err)
+    except Exception as e:
+        logging.error(e)
         return [False]
 
 
 def system_role(subject: str) -> str:
     if subject == 'Программирование':
         role = "Ты лучший помощник по программированию. Твоя цель - помочь твоему собеседнику со всеми вопросами связанные с програмированием. Если тема разговора перестает быть про програмирование, то скажи, что тема уходит в другое русло, и ты не можешь продолжать из-за этого разговор. Отвечай на каждый вопрос понятно и без ошибок."
-    else:
+    elif subject == 'Физика':
         role = "Ты лучший помощник по физике. Твоя цель - помочь твоему собеседнику со всеми вопросами связанные с физикой. Если тема разговора перестает быть про физику, то скажи, что тема уходит в другое русло, и ты не можешь продолжать из-за этого разговор. Отвечай на каждый вопрос понятно и без ошибок."
+    else:
+        role = "Ты обычный бот-помощник. Отвечай на вопросы кратко и верно."
     return role
 
 
@@ -76,6 +78,8 @@ def system_level(level: str) -> str:
         level = "Отвечай как для маленького ребенка, то-есть легко и понятно. Нельзя употреблять никаких терминов, лишь общепонятные слова. Если ответить не сможешь, то попроси повысить сложность ответа."
     elif level == 'Средний':
         level = "Отвечай как для школьника старших классов. Каждый сложный термин обьясняй. Задачу решай поэтапно."
-    else:
+    elif level == "Сложный":
         level = "Отвечай как для студента. Краткие, но понятные ответы должны быть в приоритете. Задау решай быстро и качественно."
+    else:
+        level = ""
     return level

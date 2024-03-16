@@ -37,7 +37,7 @@ def start(message: Message):
     logging.info(f"{message.from_user.username} c id {message.from_user.id} присоединился к нам!")
     if not database.is_value_in_table(user_id, user_id):
         database.insert_row(column_name='(user_id, subject, level, task, answer)',
-                            values=f'({user_id}, NULL, NULL, NULL, "Решим задачу по шагам:")')
+                            values=f'({user_id}, NULL, NULL, NULL, "Решим задачу:")')
     bot.send_message(
         user_id,
         f"Привет, {message.from_user.username}! Я бот-помощник, попытаюсь ответить на все твои вопросы по теме физики или программирования.\n"
@@ -82,20 +82,20 @@ def get_subject(message):
     database.update_row_value(message.chat.id, "answer", "NULL")
     bot.send_message(message.chat.id, "Отлично, тема сохранилась.",
                      reply_markup=create_keyboard(['Выбрать сложность/тему', 'Задать вопрос ИИ']))
-    return
 
 
 def set_level(message):
     bot.send_message(message.from_user.id,
                      text="Выберите сложность ответа. \n"
-                          "Сложный ответ ориентирован на людей, которые хорошо понимают в теме,  в то время как простой будет для людей, далеко знакомых от темы вопроса.",
+                          "Сложный ответ ориентирован на людей, которые хорошо понимают в теме, в то время как простой будет для людей, далеко знакомых от темы вопроса.",
                      reply_markup=create_keyboard(levels))
     bot.register_next_step_handler(message, get_level)
 
 
 def get_level(message):
     database.update_row_value(message.chat.id, column_name="level", new_value=message.text)
-    return
+    bot.send_message(message.chat.id, "Отлично, сложность сохранилась.",
+                     reply_markup=create_keyboard(['Выбрать сложность/тему', 'Задать вопрос ИИ']))
 
 
 @bot.message_handler(func=lambda message: message.text in ["Задать вопрос ИИ", "/solve_task"])
@@ -116,12 +116,12 @@ def add_task(message):
         return
     if database.is_value_in_table(user_id, "task"):
         bot.send_message(user_id, "Решение предыдущей задачи завершено. Тема и сложность остались прежними.")
-    database.update_row_value(user_id, "answer", "Реши задачу по шагам: ")
+    database.update_row_value(user_id, "answer", "Реши задачу: ")
     user_request = message.text
     if gpt.is_current(user_request):
         database.update_row_value(user_id, "task", user_request)
         if check(message):
-            bot.send_message(user_id, "Новая задача добавлена и нейросети скоро тебе ответит!")
+            bot.send_message(user_id, "Новая задача добавлена и нейросеть скоро тебе ответит!")
             continue_solve(message)
     else:
         bot.send_message(user_id, "Запрос превышает количество символов\nУкоротите запрос")
@@ -136,7 +136,7 @@ def check(message):
         return False
     if (database.is_value_in_table(user_id, "subject") not in subjects
             or database.is_value_in_table(user_id, "level") not in levels):
-        bot.send_message(user_id, "Выбери для начала тему/сложность ответа.",
+        bot.send_message(user_id, "У тебя не выбрана тема или сложность ответа. Перед тем, как задать вопрос выбери их.",
                          reply_markup=create_keyboard(['Выбрать сложность/тему']))
         logging.warning(f"У пользователя с id {user_id} не добавлены значения в настройках.")
         return False
@@ -159,7 +159,7 @@ def continue_solve(message):
                 answer += response[1]
                 database.update_row_value(user_id, "answer", answer)
                 bot.send_message(user_id, f"<i>{response[1]}</i>",
-                                 reply_markup=create_keyboard(["Продолжить объяснение", "/solve_task", "/set_level"]),
+                                 reply_markup=create_keyboard(["Продолжить объяснение", "Задать вопрос ИИ", "Выбрать сложность/тему"]),
                                  parse_mode="HTML")
 
         else:
@@ -182,7 +182,7 @@ def statistics(message):
     answer = "Вот сколько пользователей задало вопрос по каждой теме: \n"
     logging.info(f"{message.from_user.id} запросил статистику")
     res = database.show_column("subject")
-    cnt = {lang: 0 for lang in subjects}
+    cnt = {x: 0 for x in subjects}
     for row in res:
         cnt[row[0]] += 1
     cnt = sorted(cnt.items(), key=lambda item: item[1], reverse=True)
